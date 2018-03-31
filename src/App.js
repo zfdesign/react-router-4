@@ -39,7 +39,7 @@ class App extends Component {
           <li><Link to="/cities">Cities</Link></li>
         </ul>
 
-        <Route path="/" component={Home}/>
+        <Route path="/" exact component={Home}/>
         <Route path="/airports" component={Airport}/>
         <Route path="/cities" component={City}/>
       </div>
