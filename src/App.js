@@ -40,7 +40,8 @@ class App extends Component {
         </ul>
 
         <Route path="/" exact component={Home}/>
-        <Route path="/airports" component={Airport}/>
+        {/* <Route path="/airports" component={Airport}/> */}
+        <Route path="/airports" render={() => (<div> This is the airport route </div>)}/>
         <Route path="/cities" component={City}/>
       </div>
     );
