@@ -5,6 +5,7 @@ import {
   Redirect,
   BrowserRouter as Router,
 } from 'react-router-dom';
+import { withRouter } from 'react-router'
 
 const Public = () => (
   <div> This is a public page </div>
@@ -13,11 +14,6 @@ const Public = () => (
 const Private = () => (
   <div> This is a private page </div>
 );
-
-// const Login = () => (
-//   <div> Login Page <button>login</button> </div>
-// );
-
 
 class Login extends React.Component {
   state = {
@@ -70,12 +66,24 @@ const SecretRoute = ({ component: Component, ...rest }) => (
   )} />
 );
 
+const AuthStatus = withRouter(({ history }) => (
+  AuthService.isAuthenticated ? (
+    <p>
+      Welcome! <button onClick={() => {
+        AuthService.logout(() => history.push('/'))
+      }}>Sign out</button>
+    </p>
+  ) : (
+    <p>You are not logged in.</p>
+  )
+));
 
 class App extends Component {
   render() {
     return (
       <Router>
         <div style={{width: 1000, margin: '0 auto'}}>
+          <AuthStatus />
           <ul>
             <li><Link to='/public'> Public </Link></li>
             <li><Link to='/private'> Private </Link></li>
@@ -84,6 +92,7 @@ class App extends Component {
           <hr/>
 
           <Route path='/public' component={Public} />
+          <Route path="/login" component={Login}/>
           <SecretRoute path='/private' component={Private} />
         </div>
       </Router>
