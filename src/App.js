@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Route,
   Link,
+  Redirect,
   BrowserRouter as Router,
 } from 'react-router-dom';
 
@@ -17,7 +18,25 @@ const Login = () => (
   <div> Login Page <button>login</button> </div>
 );
 
+const AuthService = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    this.isAuthenticated = true
+    setTimeout(cb, 100)
+  },
+  logout(cb) {
+    this.isAuthenticated = false
+    setTimeout(cb, 100)
+  }
+};
 
+const SecretRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    AuthService.isAuthenticated === true
+      ? <Component {...props} />
+      : <Redirect to='/login' />
+  )} />
+);
 
 class App extends Component {
   render() {
@@ -32,10 +51,11 @@ class App extends Component {
           <hr/>
 
           <Route path='/public' component={Public} />
-          <Route path='/private' component={Private} />
+          <SecretRoute path='/private' component={Private} />
         </div>
       </Router>
     );
   }
 }
+
 export default App;
