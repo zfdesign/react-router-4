@@ -1,51 +1,47 @@
-import React, { Component } from 'react';
+import React from 'react'
 import {
+  BrowserRouter as Router,
   Route,
   Link,
-  Redirect,
-  Switch,
-  BrowserRouter as Router,
-} from 'react-router-dom';
+} from 'react-router-dom'
 
-const Home = () => (
-  <div>
-    <h2>Home Page</h2>
-  </div>
-)
+const routes = [
+  { path: '/',
+    exact: true,
+    leftbar: () => <div>Home</div>,
+    main: () => <h2>Home</h2>
+  },
+  { path: '/about',
+    leftbar: () => <div>About</div>,
+    main: () => <h2>About</h2>
+  },
+  { path: '/contact',
+    leftbar: () => <div>Contact</div>,
+    main: () => <h2>Contact</h2>
+  }
+]
 
-const Contact = () => (
-  <div>
-    <h2>Contact Page</h2>
-  </div>
-)
-
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
-       <Router>
-        <div>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
-            <li>
-              <Link to="/blahblah">Blah</Link>
-            </li>
-          </ul>
+      <Router>
+        <div style={{ display: 'flex' }}>
+          <div style={{
+            padding: '10px',
+            width: '40%',
+            background: '#FF6347'
+          }}>
+            <ul style={{ listStyleType: 'none', padding: 0 }}>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/about">About</Link></li>
+              <li><Link to="/contact">Contact</Link></li>
+            </ul>
 
-        <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route path="/contact" component={Contact}/>
-          {/* Handling non-existent routes */}
-          <Route render={() => (<div> Sorry, this page does not exist. </div>)} />
-        </Switch>
+          </div>
         </div>
       </Router>
-    );
+    )
   }
 }
 
-export default App;
+export default App
